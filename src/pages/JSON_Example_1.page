@@ -1,0 +1,17 @@
+<apex:page controller="JSON_Example_1" >
+    <apex:form id="fm">
+    	<apex:pageBlock title="lead">
+        	<apex:pageBlockButtons location="top">
+                <apex:commandButton value="Submit" action="{!create}" reRender="fm" />
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection >
+               <apex:inputText value="{!newLead.lastName}" />
+                <apex:inputText value="{!newLead.FirstName}" />
+                <apex:inputText value="{!newLead.Company}" />
+                <apex:inputText value="{!newLead.Phone}" />
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+         {!result}
+    </apex:form>
+   
+</apex:page>

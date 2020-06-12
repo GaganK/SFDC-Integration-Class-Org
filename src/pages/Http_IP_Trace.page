@@ -1,0 +1,22 @@
+<apex:page controller="Http_IP_Trace">
+    <apex:form id="fm">
+        <style>
+        	.even{
+            	background:#D7DBDD ;
+            }
+            .odd{
+            	background:#F8F9F9;
+            }
+            .head{
+            	background:#AEB6BF;
+            }
+        </style>
+        <apex:inputText value="{!ipAddress}" />
+        <apex:commandButton value="Go" action="{!invoke}" reRender="fm" />
+        <br/><br/>
+        <apex:dataTable value="{!resMap}" var="a" width="300" rowClasses="odd,even"  headerclass="head" cellpadding="5px" rules="rows" frame="border" rendered="{! !ISNULL(resMap)}">
+            <apex:column value="{!a}" headerValue="Property" />
+            <apex:column value="{!resMap[a]}" headerValue="Value" />
+        </apex:dataTable>
+    </apex:form>
+</apex:page>

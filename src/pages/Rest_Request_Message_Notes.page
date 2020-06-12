@@ -1,0 +1,34 @@
+<apex:page >
+    RestRequest: 
+    1. It is pre-defined apex class.
+    2. It is defiend under the namespace of System,
+    3. This class will store the data or help to pass the data from the client when reqeusting 
+       rest resource from the salesforce.
+    
+    ==> Properties : 
+    	a.headers : 
+    	  1. This will contain all the header elemens in the httpRqeust received from the client.
+    	  <!-- Map<String,String> params  -->
+    	b. httpMethod : 
+    	  1. This will specify the type of method specified in the request
+    		 Example : 
+    		 GET 
+    		 POST
+    		 PUT
+    		 DELETE 
+    		 
+    	c. params : 
+    	   1. This wll return all the parameters passed in the url in the form of map 
+    	   <!--	Map<String,String> params	-->
+    
+    	d. requestURI :
+    	   1.Returns or sets everything after the host in the HTTP request string.
+    
+    	e. requestBody : 
+    	   1. This will return the body in the request.
+    	   2. What ever the data passed in the body will be de-serialized and passed as parameters 
+    		  to the method.
+    
+    
+		
+</apex:page>

@@ -1,0 +1,71 @@
+<apex:page >
+    1. if you want to define any rest api service in the salesforce then  apex class should have 
+    		@RestResource(urlmapping='/url')
+    
+    2. Apex class should be global 
+    3. All the methods in the class should be global 
+    4. Every method in the Service should be static 
+    5. Every method should have any one the following annotation
+    	@HttpGet
+    	@HttpPost
+    	@HttpDelete
+    	@HttpPut
+    	@HttpPatch
+    
+    Example : 
+    @RestResource(urlmapping='/newCustomer/*)
+    global class Example{
+    	@HttpGet
+    	global static String callMe(){
+    
+    	}
+    	@HttpPost
+    	global static  String invoke(String name){
+    
+    	}
+    	@HttpDelete
+    	global static  String show(){
+    
+    	}
+    }
+    
+    Example : Create a rest api services using apex class Payment_Services with
+    			==> invoice as getMethod
+    			==> payment as post 
+    			==> revertPayment as Delete
+    			==> dispay as put service
+    
+    @RestResource(urlmapping='/payment_services/*)
+    global class Payment_Services{
+    	@HttpGet
+    	global static String invoice(){
+    
+    	}
+    	@HttpPost
+    	global static String payment(){
+    	
+    	}
+    	@HttpDelete
+    	global static String revertPayment(){
+    
+    	}
+    	@HttpPut
+    	global static String display(){
+    
+    	}
+    
+    }
+    
+    Example 1: Create a rest api service which will insert new Opportunity 
+    url : /newOpty
+    class: Opty_Creation
+    method :Post 
+    methodName: createService 
+    parameters: name, type 
+    			
+    Success : {"status":"Success" ,"Id":006,,,,," }
+    Failed  :{"status":"Failed" ,"Error":"reason"}  e.getMessage()
+    
+    https://serverinstance.salesforce.com/services/apexrest/restServiceURL
+    														/newOpty
+</apex:page>

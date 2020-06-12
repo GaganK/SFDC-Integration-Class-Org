@@ -1,0 +1,121 @@
+<apex:page >
+    HttpRequest : 
+    	a. setEndPoint(url ):
+    		1. Pass the url of the resource which you are requesting 
+    
+    	b. setMethod(method):
+    		1. This will specify the reqeust type 
+    		2. GET ,POST,PUT,HEAD, DELETE ,TRACE
+    
+    	c. setHeader(key,Value) : 
+    		1. This will pass the header elements 
+    		Example : 
+    		HttpRequest request =new HttpRequest();
+    		request.setHeader('Accept','application/json');
+    		request.setHeader('Accept-language','en-us');
+    		request.setHeader('Authorization','OAuth sessionId');
+    	
+    	d. setTimeout(milliseconds)
+    		request.setTimeOut(12000);
+    
+    Example : 
+    1. Create a Http request with following details 
+    	a. EndPoint : https://www.satishmyla.in/videos
+    	b. Request  : Method  GET 
+    	c. Timeout  : 120
+    	d. Header   : Authorization : Bearer 000001
+    	HttpRequest request =new HttpRequest();
+    	request.setEndPoint('https://www.satishmyla.in/videos');
+    	request.setMethod('GET');
+    	request.setTimeout(120);
+    	request.setHeader('Authorization','Bearer 000001');
+    	
+    Example : 
+    2. Create a Http request with following details 
+    	a. EndPoint 	: https://www.capitalinfosol.com/batches
+    	b. Method 		: GET 
+    	c. Parameters	: BatchNo : Integer 
+    				  	: Faculty : String
+    	d. Header 		: Accept application/json
+    	
+    	String url ='https://www.capitalinfosol.com/batches?';
+   		url=url+'batchno=Integration123';
+     <!--  url=url+'&faculty=satish'; -->
+    	HttpRequest request =new HttpRequest();
+    	request.setEndPoint(url);
+    	request.setMethod('GET');
+    	request.setHeader('Accept','application/json');
+    	
+   Example :
+   3. Create a Http request with the following details 
+    	Endpoint 	: https://www.api.facebook.com
+    	Method	 	: Post 
+    	Parameters 	: Name=Satish ,Age =33 ,City =Ban
+    	Header		: Accept : application/json
+    	
+    	HttpRequest request=new HttpRequest();
+    	request.setEndpoint('https://www.api.facebook.com');
+    	request.setMethod('POST');
+    <!--String body='name=satish&age=33&city=ban'; -->
+    	request.setBody(body);
+    	request.setHeader('Accept','application/json');
+    
+    4. Create a Http request with following details 
+    	Endpoint : https://www.employeeportal.in
+    	Method	 : POST 
+    	Body	 : JSON : LastName : Myla , FirstName : Satish , City : Hyd 
+    	
+    	HttpRequest request =new HttpRequest();
+    	request.setEndpoint('https://www.employeeportal.in');
+    	request.setMethod('POST');
+    	String body='{"LastName":"Myla","FirstName":"Satish","City":"Hyd"}';
+    	request.setBody(body);
+    
+    
+    Example : 
+    5. Send the http request  and read the data
+    	EndPoint : https://www.satishmyla.in
+    	Method	 :GET 
+    	Parameters: name=satish
+    	
+    	HttpRequest request =new HttpRequest();
+    	String url='https://www.satishmyla.in?name=satish';
+    	request.setEndpoint(url);
+    	request.setMethod('GET');
+    	Http p=new Http();
+    	HttpResponse response =p.send(request);
+    	String body=response.getBody();
+    	String status=response.getStatus();
+    	Integer code=response.getStatusCode();
+    	String format=response.getHeader('Content-type');
+    <!--	Set<String> keys =response.getHeaderKeys();  -->
+    
+    Example : 
+    6. Make http request and get the json response and de-serialize the response 
+    	EndPoint : https://www.test.com
+    	Method   : GET 
+    	Response :
+    		Body : {"Name":"Wipro","Industry":"Banking","Phone":"040-1234"}
+    	
+    	Read the response and Create a account .
+    	
+    	HttpRequest request =new HttpRequest();
+    	request.setEndPoint('https://www.test.com');
+    	request.setMethod('GET');
+    	Http p=new Http();
+    	HttpResponse response=p.send(request);	
+    	String body=response.getBody();
+    	Account acc =new Account();
+    	System.JSONParser js=JSON.createParser(body);
+    	while(js.nextToken()!=null){
+    		if(js.getText()=='Name'){
+    			js.nextToken();
+    			acc.Name=js.getText();
+    		}
+    		if(js.getText()=='Industry'){
+    			js.nextToken();
+    			acc.Industry=js.getText();
+    		}
+    	}
+    	insert acc;
+</apex:page>

@@ -1,0 +1,29 @@
+<apex:page controller="Http_Currency_Converter" >
+    <apex:form >
+    	<apex:pageBlock title="Converter">
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Converter" action="{!invoke}" />
+            </apex:pageBlockButtons>
+        	<apex:pageBlockSection columns="1">
+            	<apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Access key" />
+                    <apex:inputText value="{!key}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Source" />
+                    <apex:inputText value="{!source}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Target" />
+                    <apex:inputText value="{!target}" />
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="1" rendered="{! !ISNULL(value)}" >
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Value" />
+                    <apex:outputText value="{!value}" />
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,7 @@
+<apex:page controller="XML_Example_4">
+    <apex:form >
+        <apex:inputFile value="{!body}" fileName="Testing" />
+        <apex:commandButton value="Submit" action="{!search}" />
+        <apex:inputTextArea rows="10" cols="50" value="{!result}" />
+    </apex:form>
+</apex:page>

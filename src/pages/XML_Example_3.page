@@ -1,0 +1,12 @@
+<apex:page controller="XML_Example_3">
+    <apex:form >
+    	<apex:panelGrid columns="3">
+            <apex:inputTextArea rows="10" cols="50" value="{!xmlString}" />
+            <apex:panelGrid columns="1">
+                <br/>
+                <apex:commandButton value="Search" action="{!fetchData}" reRender="pb"/>
+            </apex:panelGrid>
+            <apex:inputTextArea rows="10" cols="50" value="{!result}" id="pb"/>
+        </apex:panelGrid>
+    </apex:form>
+</apex:page>

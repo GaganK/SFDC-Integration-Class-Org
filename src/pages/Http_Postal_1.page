@@ -1,0 +1,10 @@
+<apex:page controller="Http_Postal_1">
+    <apex:form id="fm">
+        <apex:inputText value="{!zipcode}" />
+        <apex:commandButton value="Go" action="{!callMe}" reRender="fm"/>
+ 
+        <apex:dataTable value="{!places}" var="a" rules="rows" frame="border" width="200" cellpadding="5px" rendered="{! !ISNULL(places)}" >
+            <apex:column value="{!a}" />
+        </apex:dataTable>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,295 @@
+<apex:page >
+    JSON:
+    ------
+    1. When two systems want to communicate and exchange the data accross the network ,
+       it should be always in the form of text.
+    
+    2. JSON is Java Script Object Notation.
+    
+    3. It is format of storing the data and exchanging the data across the network.
+    
+    4. JSON is also text format but in Javascript object notation.
+    
+    5. It is platform independent and language independent.
+    
+    6. It is represented in the form of name-value pair 
+    
+    7. JSON String will start and end with object 
+    
+    8. In JSON object will be represented with " {} "
+    	
+    Syntax: 
+    	{ "Name" :" value" }
+    
+    Example :1
+    	{"FirstName":"Satish","LastName":"Myla","Phone":'040-1223',"Age":33 ,"Salary":10000 }
+    
+    Example :2 Array of values 
+    	{"Name":"CBIT" ,"Students":["Sam","Ram","Kiran"]}
+    
+    Example :3 
+    	public class Wrapper{
+    		public String name;
+    		public String city;
+    	}
+    
+    	{"Wrapper":{"name":"Satish","city":"Hyd"} }
+    
+    Example :4 
+    	Public class Student{
+    		public Integer age;
+    		public String colgName;
+    		public String place;
+    	}
+    	
+    	{"Student" :{"age":30,"colgName":"CBIT" ,"place":"Gandipet" } } 
+    Example :5 
+    	public class Employee{
+    		public String lastName;
+    		public String firstName;
+    		public Decimal salary;
+    		public Decimal exp;
+    				
+    	}
+   		{"Employee":{"lastName":"Myla","firstName":"Satish","salary":10000,"exp":3.2}}
+    		
+    Example : 6 
+    	<!--
+		
+			List<Account> accounts ;
+		-->
+   		
+    	{"Accounts" :[{"Name":"Wipro","Phone":"040-123"},
+    
+    				  {"Name":"TCS","Phone":"020-1234"}
+     				 ] 
+    	}
+    
+    Example : 7 
+    	<!--
+			List<Contact> contacts 
+	
+		-->
+    	{"contacts" :[	{"lastName":"jasti","firstName":"kalyan"},
+    					{"lastName":"Mandava","firstName":"Koti"}
+    				 ] 
+    	}
+    
+    Example :8
+    	public class Example {
+    			public Account acc;
+    			public Contact con;
+    			public String[] names ;
+    			public Account[] accounts;
+    	}
+    
+    	{"Example": {
+    					"acc":{"name":"Wipro","Phone":"1234"},
+    					"con":{"lastName":"K","Phone":"1234"},
+    					"names":["Sam","Ram"],
+    					"accounts":[{},{}] 
+    				}  
+    	}
+    
+    Serialize : 
+    1. it is a process of converting the object into string format.
+    
+    De-Serialize :
+    Converting String into corresponding Native object is called De-Serialize.
+    
+========================================================================================
+    1. Salesforce has provided some pre-defined apex classes required to serialize and 
+        de-serialize the data in the form of JSON
+    
+    2. classes defined by Salesforce are 
+    		a. JSON
+    		b. JSONParser
+    		c. JSONGenerator
+    		d. JSONToken
+    
+    3. JSON : 
+        a. It is the pre-defined apex class.
+    	b. It is defined under the namespace of System.
+    	c. This class contains all the method required to serialize and de-serialise the 
+    	   data 
+    		1. serialize(objectToSerialize) :
+    			This method will convert the object in the form of string 
+    			Example : 
+    			String one =JSON.serialize(10);
+				String two =JSON.serialize(10000.00);
+				Account acc =new Account(name='Dell',Phone='03000-1-111');
+				String three=JSON.serialize(acc);
+				System.debug(one);
+				System.debug(two);
+				System.debug(three);
+    			
+    o/p:   10
+    	   10000.00
+    	   {"attributes":{"type":"Account"},"Name":"Dell","Phone":"03000-1-111"}
+    
+    
+    	 2. serialize(objectToSerialize, suppressApexObjectNulls)
+    		 a. This method will convert the object in the form of String 
+    		 b. If any attribute values are not given they are suppressed
+    
+    		 Example :
+    			public class Student {
+					public String name;
+    				public String city;
+    				public Integer age;
+				}
+    			
+    		  Student std =new Student();
+			  std.Name='Satish';
+			  std.city='Hyd';
+			  String one =JSON.serialize(std);
+			  String two =JSON.serialize(std,true);
+			  System.debug(one);
+			  System.debug(two);
+    		
+    		o/p :{"name":"Satish","city":"Hyd","age":null}
+    	 		 {"name":"Satish","city":"Hyd"}
+    	3. serializePretty(objectToSerialize)
+    		a. This will serialiae the data in the pretty print format.
+    
+    	4. serializePretty(objectToSerialize, suppressApexObjectNulls)
+    
+    	5. deserialize(jsonString,ApexType):
+    	   a. This method will deserialize the data in the form of given apex.
+    		   Integer.class
+    		   Decimal.class
+    		   Boolean.class
+    		   Account.class
+    		   Contact.class
+    		Example :	
+    		String one='10';
+			Integer a =(Integer)JSON.deserialize(one,Integer.class);
+			String two='10000.11';
+			Decimal b=(Decimal)JSON.deserialize(two,Decimal.class);
+			System.debug(a);
+			System.debug(b);
+			String three='{"Name":"Wipro","Phone":"040-1233"}';
+			Account acc=(Account)JSON.deserialize(three,Account.class);
+			System.debug(acc);
+			String four='{"name":"Ram","city":"Hyd","age":30}';
+			Student std =(Student)JSON.deserialize(four,Student.class);
+			System.debug(std);
+    	6. deserializeStrict(jsonString, apexType) :
+    		a. This method will deserialize the jsonString into given apex class .
+    		b. Every element in the jsonString should be a part of apex class into which 
+    		   we are converting ,
+    		c. If the jsonString contains any extra attributes then the apex class members then
+    			throws error 
+    
+    		Example : 
+    			public class student{
+    				public String name;
+    				public String city;
+    				public Integer age;
+    			}
+    
+    			String four='{"name":"Ram","city":"Hyd","Phone":"040-1222"}';
+				Student std =(Student)JSON.deserialize(four,Student.class);
+				System.debug(std);
+				Student std2=(Student)JSON.deserializeStrict(four,Student.class);//Error phone is not a part of 
+    																				Student
+    			System.debug(std2);
+    
+    	7. deserializeUntyped(jsonString) :
+    		a. This will deserialize the data and return the result in the form of Map .
+    		b. Name in the json will be key in the map and  value in json name-value pair will be 
+    		   value in the map.
+    <!--
+    		Example :
+    		String four='{"name":"Ram","city":"Hyd","Phone":"040-1222"}';
+			Map<String,Object> resMap=(Map<String,Object>)JSON.deserializeUntyped(four);
+			System.debug(resMap.keySet());
+			System.debug(resMap.values());
+
+	-->
+    	8. createParser(jsonString) : 
+    	   a. This method will take the jsonString and break them into number of tokens 
+    	   b. Syntax : 
+    			System.JSONParser jp= JSON.createParser(jsonString)
+    
+    	9. JSONParser : 
+    		a. It is predifined apex class 
+    		b. Defined under the namespace of System
+    		c. This class have pre-defined method to read the data from jsonString 
+    			1. nextToken()
+    			2. hasNext()
+    			3. readValueAs(apexclas)
+    			4. getIntegerValue()
+    			5. getDecimalValue()
+    			6. getBooleanValue()
+    			7. getIdValue()
+    			8. getText()
+    
+    	
+		<!--
+		Example :1
+    	String four='{"name":"Ram","city":"Hyd","Phone":"040-1222"}';						
+		System.JSONParser jp=JSON.createParser(four);
+		while(jp.nextToken()!=null){
+    		System.debug('Token:'+jp.getCurrentToken());
+    		System.debug('Field:'+jp.getText());
+		}
+		Example :2
+		String four='{"name":"Ram","city":"Hyd","Phone":"040-1222"}';
+		System.JSONParser jp=JSON.createParser(four);
+		while(jp.nextToken()!=null){
+    		if(jp.getCurrentToken()==System.JSONTOken.FIELD_NAME){
+       		 System.debug(jp.getText());
+    		}
+		}
+
+		Example :3
+		String four='{"name":"Ram","city":"Hyd","Phone":"040-1222"}';
+		System.JSONParser jp=JSON.createParser(four);
+		while(jp.nextToken()!=null){
+    		if(jp.getCurrentToken()==System.JSONTOken.FIELD_NAME && jp.getText()=='city'){
+        		jp.nextToken();
+        		System.debug(jp.getText());
+    		}
+		}
+		Example :4
+		String jsonString='{"name":"satish","Age":33,"Salary":10000.00}';
+		System.JSONParser jp=JSON.createParser(jsonString);	
+		while(jp.nextToken()!=null){
+    		if(jp.getText()=='Age'){
+        		jp.nextToken();
+        		Integer age=(Integer)jp.getIntegerValue();
+       	 		System.debug('Age :'+age);
+    		}
+    		if(jp.getText()=='Salary'){
+        		jp.nextToken();
+        		Decimal sal=(Decimal)jp.getDecimalValue();
+        		System.debug('Salary:'+sal);
+    		}   
+		}
+
+	Example : 5
+	String jsonString='{"Account":{"name":"TCS","Rating":"Hot"}}';		 		    
+	System.JSONParser jp=JSON.createParser(jsonString);
+ 	jp.nextToken();
+	while(jp.nextToken()!=null){
+    	if(jp.getCurrentToken()== System.JSONToken.START_OBJECT){
+        	Account acc=(Account)jp.readValueAs(Account.class);
+        	System.debug(acc.Name);
+        	System.debug(acc.Rating);
+    	}
+    
+	}
+	Example :6
+	String jsonString='{"Accounts":[{"name":"Wipro","Rating":"Hot"},{"name":"Wipro","Rating":"Hot"},{"name":"Wipro","Rating":"Hot"}]}';
+
+	System.JSONParser jp=JSON.createParser(jsonString);
+	while(jp.nextToken()!=null){
+    	if(jp.getCurrentToken()==System.JSONToken.START_ARRAY){
+        	List<Account> accounts =(List<Account>)jp.readValueAs(List<Account>.class);
+        	System.debug(accounts);
+    	}
+	
+-->
+    
+</apex:page>

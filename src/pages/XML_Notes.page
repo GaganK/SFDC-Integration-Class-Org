@@ -1,0 +1,300 @@
+<apex:page >
+    <!--
+What is XML?
+•   XML stands for EXtensible Markup Language
+•   XML is a markup language much like HTML.
+•   XML was designed to describe data.
+•   XML tags are not predefined in XML. You must define your own tags.
+•   XML is self describing.
+•   XML uses a DTD (Document Type Definition) or Schema to formally describe the data.
+XML allows the author to define his own tags and his own document structure.
+An Example XML Document
+XML documents use a self-describing and simple syntax:
+<?xml version="1.0" encoding="UTF-8"?>
+<note>
+  <to>Capital</to>
+  <from>Satish Myla</from>
+  <heading>Lightning Notes </heading>
+  <body>This is a test message ! </body>
+</note>
+The first line is the XML declaration. It defines the XML version (1.0).
+The next line describes the root element of the document (like saying: "this document is a note"):
+<note>
+The next 4 lines describe 4 child elements of the root (to, from, heading, and body):
+  <to>Capital</to>
+  <from>Satish Myla</from>
+  <heading>Lightning Notes </heading>
+  <body>This is a test message ! </body>And finally the last line defines the end of the root element:
+You can assume, from this example, that the XML document contains a note to Tove from Jani.
+Don't you agree that XML is pretty self-descriptive?
+XML Documents Form a Tree Structure
+XML documents must contain a root element. This element is "the parent" of all other elements.
+The elements in an XML document form a document tree. The tree starts at the root and branches to the lowest level of the tree.
+All elements can have sub elements (child elements):
+<root>
+  <child>
+    <subchild>.....</subchild>
+  </child>
+</root>
+The terms parent, child, and sibling are used to describe the relationships between elements. Parent elements have children. Children on the same level are called siblings (brothers or sisters).
+All elements can have text content and attributes (just like in HTML).
+________________________________________
+Example:
+ 
+The image above represents one book in the XML below:
+<bookstore>
+  <book category="COOKING">
+    <title lang="en">Everyday Italian</title>
+    <author> Satish</author>
+    <year>2005</year>
+    <price>30.00</price>
+  </book>
+  <book category="CHILDREN">
+    <title lang="en">Harry Potter</title>
+    <author>J K. Rowling</author>
+    <year>2005</year>
+    <price>29.99</price>
+  </book>
+  <book category="WEB">
+    <title lang="en">Learning XML</title>
+    <author>Erik T. Ray</author>
+    <year>2003</year>
+    <price>39.95</price>
+  </book>
+</bookstore>
+The root element in the example is <bookstore>. All <book> elements in the document are contained within <bookstore>.
+The <book> element has 4 children: <title>,< author>, <year>, <price>.
+
+
+Note :XML Tags are Case Sensitive
+XML tags are case sensitive. The tag <Letter> is different from the tag <letter>.
+Opening and closing tags must be written with the same case:
+<Message>This is incorrect</message>
+<message>This is correct</message>
+Note: "Opening and closing tags" are often referred to as "Start and end tags". Use whatever you prefer. It is exactly the same thing.
+XML Elements Must be Properly Nested
+In HTML, you might see improperly nested elements:
+<b><i>This text is bold and italic</b></i>
+In XML, all elements must be properly nested within each other:
+<b><i>This text is bold and italic</i></b>
+In the example above, "Properly nested" simply means that since the <i> element is opened inside the <b> element, it must be closed inside the <b> element.
+________________________________________XML In salesforce Apex :
+Dom (Document Object Model)
+ DOM  Name space contains  classes using which we can  parse or generate XML content. DOM Name space contains the following classes
+    1.Document 
+    2.XMLNode
+Document : 
+    This is a predefined class defined in the DOM Name Space using whcih we can process body of an XML document
+Syntax : 
+DOM.Document xmldoc=new DOM.Document();
+Methods in Document class :
+1.  createRootElement(name, namespace, prefix)
+2.  getRootElement()   
+3.  load(xml)
+4.  toXmlString()
+
+1. createRootElement(name, namespace, prefix)
+Creates the top-level root element for a document.
+Signature
+public Dom.XmlNode createRootElement(String name, String namespace, String prefix)
+ 
+Ex:     DOM.Document xmldoc=new DOM.Document();
+        xmldoc.createRootElement('Name',null, null);
+        String xmlstring=xmldoc.toXmlString();
+     System.debug(xmlstring):
+    O/p : <?xml version="1.0" encoding="UTF-8"?>
+                   <Name /> 
+Ex:     DOM.Document  xmldoc=new DOM.Document();
+            xmldoc.createRootElement('Name','example', null);
+        String  xmlstring=xmldoc.toXmlString();
+    System.debug(xmlstring);
+    O/P : <?xml version="1.0" encoding="UTF-8"?>
+                      <ns0:Name xmlns:ns0="example" />
+
+Ex :    DOM.Document  xmldoc=new DOM.Document();
+            xmldoc.createRootElement('Name','soap', 'ts');
+               String xmlstring=xmldoc.toXmlString();
+    System.debug(xmlstring);
+    O/p : <?xml version="1.0" encoding="UTF-8"? >
+                     <ts:Name xmlns:ts="soap" />
+DOM.XMLNode : This class is used to refer to the node  in xml document using which we can create XML document
+Ex:     DOM.Document xmldoc=new DOM.Document();
+            DOM.XmlNode dns= xmldoc.createRootElement('Name',null, null);
+            String xmlstring=xmldoc.toXmlString();
+            System.debug(xmlstring);
+    Output : <?xml version="1.0" encoding="UTF-8"?><Name />
+Ex: DOM.Document xmldoc=new DOM.Document();
+        DOM.XmlNode  root= xmldoc.createRootElement('Name',null, null);
+         DOM.XMLNode lname=root.addChildElement('LastName',null,null);
+         lname.addTextNode('Myla');
+        String xmlstring=xmldoc.toXmlString();
+        System.debug(xmlstring);
+    Output : 
+              <?xml version="1.0" encoding="UTF8"?>    
+              <Name>
+                    <LastName>Myla</LastName>
+              </Name>
+Ex:     DOM.Document xmldoc=new DOM.Document();
+            DOM.XmlNode dns= xmldoc.createRootElement('Name',null, null);
+            DOM.XMLNode fname=dns.addChildElement('FistName',null,null);
+            fname.addTextNode('Satish');
+            fname.addCommentNode('This is  a comment created');
+            DOM.XMLNode lname=dns.addChildElement('LastName',null,null);
+            lname.addTextNode('Myla');
+            String xmlstring=xmldoc.toXmlString();
+            System.debug(xmlstring);
+    Output: 
+<?xml version="1.0" encoding="UTF-8"?>
+<Name>
+<FistName>Satish
+
+</FistName>
+<LastName>Myla</LastName>
+</Name>
+
+
+
+Example 1: Create a XML Document using XMLNode  and Document class 
+public class XMLCreating {
+    public String result {Set;get;}
+    public XMLCreating(){
+         Dom.Document doc = new Dom.Document();
+         Dom.Xmlnode rootNode = doc.createRootElement('response', null, null);
+         List<Account> accountList = [ select  id, name, (select id, name, email from Contacts) from  Account] ;
+         for (Account eachAccount : accountList) {  
+         Dom.Xmlnode accountNode = rootNode.addChildElement('Account', null, null);
+         accountNode.setAttribute('id', eachAccount.Id);
+         accountNode.setAttribute('name', eachAccount.Name);
+         result=doc.toXmlString();   
+    }
+  }
+}
+Output : 
+ 
+
+
+
+
+
+Example 2: Create a XML Document using XMLNode  and Document class 
+
+Public class XMLCreate{
+    Public String result {Set;get;}
+    Public XMLCreate(){
+DOM.Document doc = new DOM.Document();
+String soapNS = 'http://schemas.xmlsoap.org/soap/envelope/';
+String xsi = 'http://www.w3.org/2001/XMLSchema-instance';
+String serviceNS = 'http://www.myservice.com/services/MyService/';
+DOM.XmlNode envelope= doc.createRootElement('Envelope', soapNS, 'soapenv');
+    envelope.setNamespace('xsi', xsi);
+     envelope.setAttributeNS('schemaLocation', soapNS, xsi, null);
+    Dom.XmlNode body= envelope.addChildElement('Body', soapNS, null);
+ body.addChildElement('echo', serviceNS, 'req').addChildElement('category', serviceNS,         null).addTextNode('classifieds');
+    String result=’'+doc.toXmlString();
+    }
+}
+
+O/p:
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xsi:schemaLocation="http://schemas.xmlsoap.org/soap/envelope/"        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<soapenv:Body>
+<req:echo xmlns:req="http://www.myservice.com/services/MyService/">
+<req:category>classifieds</req:category>
+</req:echo>
+</soapenv:Body>
+</soapenv:Envelope>
+
+load(xml)
+Parse the XML representation of the document specified in the xml argument and load it into a document.
+Signature
+public Void load(String xml)
+Example : 
+DOM.Document doc=new DOM.Document();
+doc.load(‘<Name><FirstName> Satish</FirstName><LastName>Myla</LastName></Name>’);
+    
+    
+getRootElement()
+Returns the top-level root element node in the document. If this method returns null, the root element has not been created yet.
+Signature
+public Dom.XmlNode getRootElement()
+Return Value
+Type: Dom.XmlNode
+      String xmlstring='<Institute><Name>CapitalInfo</Name><Faculty>Satish Myla</Faculty>';
+       xmlstring+='<Phone>1234</Phone><Address>Ameerpet</Address></Institute>';
+       Dom.Document xmldoc=new DOM.Document();
+       xmldoc.load(xmlstring);
+       DOM.XmlNode root=xmldoc.getRootElement();
+       result='Name :'+root.getName(); 
+  Output : Name :Institute
+
+getChildElements() :This method will return the list of child elements assoicated with the given root element 
+Signature :
+Given xml is created as xmldoc in the form of string 
+<Name>
+    <FirstName> Satish </FirstName>
+    </Name>
+DOM.Document doc=new DOM.Document();
+doc.load(xmldoc);
+DOM.XMLNode  root=doc.getRootElement();
+List<DOM.XMLNode> childs =root.getChildElements();
+ String name =childs[0].getName(); 
+System.debug(name) ;// LastName
+
+toXmlString()
+Returns the XML representation of the document as a String.
+Signature
+public String toXmlString()
+Parsing xml document or XML file using DOM.XMLNode  
+Scenario 1: Parsing the XML  document given as inputText and
+ 
+
+Scenario 2: Parsing  the XML file choosen from input
+ 
+
+ 
+public class XMLExample2 {
+    public String xmlstring{get;set;}
+    public String outxmlstring{get;set;}
+    public String rootElement{get;set;}
+    public String filename{get;set;}
+    public blob body{get;set;}
+    public List<Account> lstaccount{get;set;}
+    public XMLExample2(){
+      lstaccount=new List<Account>();
+    }
+//Parsing xml what you entered in the left text area
+    public pagereference Parsexml(){
+       DOM.Document xmlDOC = new DOM.Document(); 
+       xmlDOC.load(xmlstring); 
+       DOM.XMLNode rootElement = xmlDOC.getRootElement();
+       outxmlstring=String.valueof(xmlDOC.getRootElement().getName());
+       for(DOM.XMLNode xmlnodeobj:xmlDOC.getRootElement().getChildElements()){
+          if(xmlnodeobj.getName()=='FirstName')
+            outxmlstring+='\nAccount Name:'+xmlnodeobj.getText();
+          if(xmlnodeobj.getName()=='LastName')
+            outxmlstring+='\nAccount Type:'+xmlnodeobj.getText();  
+       }
+      return null;
+    }
+//This is for parsing xml file what you selected
+  public pagereference Parsexmlfile(){
+       DOM.Document xmlDOC = new DOM.Document(); 
+       xmlstring=body.tostring();
+       system.debug('****xmlstring'+xmlstring);
+      // xmlstring=xmlstring.Substring(1,xmlstring.length());
+       //outxmlstring=xmlstring;
+       xmlDOC.load(xmlstring); 
+       DOM.XMLNode rootElement = xmlDOC.getRootElement();
+       outxmlstring=String.valueof(xmlDOC.getRootElement().getName());//gives you root element Name
+       for(DOM.XMLNode xmlnodeobj:xmlDOC.getRootElement().getChildElements()){ 
+                         //gives you all childnodes list
+          if(xmlnodeobj.getName()=='LastName')
+            outxmlstring+='\nAccount Name:'+xmlnodeobj.getText();// it gives you text node
+          if(xmlnodeobj.getName()=='FirstName')
+            outxmlstring+='\nAccount Type:'+xmlnodeobj.getText();  
+       }
+      return null;
+    }
+}
+-->
+</apex:page>

@@ -1,0 +1,44 @@
+<apex:page controller="Amazon_Example">
+    <apex:form >
+    	<apex:pageBlock title="Person" id="one">
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Submit" action="{!getData}" reRender="one" />
+            </apex:pageBlockButtons>
+        	<apex:pageBlockSection title="Credential" collapsible="false" columns="1">
+            	<apex:pageBlockSectionItem >
+                    <apex:outputLabel value="User Name" />
+                    <apex:inputText value="{!name}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Password" />
+                    <apex:inputText value="{!password}" />
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="UserId" />
+                    <apex:inputText value="{!userId}" />
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Credential" collapsible="false" columns="1" rendered="{! !ISNULL(name)}">
+            	<apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Name" />
+                    <apex:inputText value="{!name}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Age" />
+                    <apex:inputText value="{!age}" />
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Country" />
+                    <apex:inputText value="{!country}" />
+                </apex:pageBlockSectionItem>
+                 <apex:pageBlockSectionItem >
+                    <apex:outputLabel value="Occupation" />
+                    <apex:inputText value="{!occupation}" />
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection >
+            	{!result}
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
